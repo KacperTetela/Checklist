@@ -4,8 +4,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-
-
 @RequestMapping("/api/v0/checklists")
 public class ChecklistController {
     private ChecklistService checkListService;
@@ -25,7 +23,12 @@ public class ChecklistController {
     }
 
     @GetMapping("/last")
-    public Checklist getChecklist() {
+    public Checklist getLastChecklist() {
         return checkListService.getLastChecklist();
+    }
+
+    @DeleteMapping("/{id}")
+    public boolean delete(@PathVariable long id) {
+        return checkListService.deleteChecklist(id);
     }
 }

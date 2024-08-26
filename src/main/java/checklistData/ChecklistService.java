@@ -24,19 +24,28 @@ public class ChecklistService {
         return checklistRepository.findAll();
     }
 
-    Checklist updateChecklist(long id, Checklist checklist) {
-        Checklist existingChecklist = checklistRepository.findById(id)
-                .orElseThrow();
+    public Checklist updateChecklist(long id, Checklist newChecklist) {
+        Checklist checklist = checklistRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Checklist not found"));
 
-        existingChecklist.setRoomNumber(checklist.getRoomNumber());
-        existingChecklist.setComplete(checklist.isComplete());
-        existingChecklist.setSigner(checklist.getSigner());
-        existingChecklist.setComments(checklist.getComments());
+        newChecklist.getRooms()
+                .forEach(room -> room.setChecklist(checklist));
 
-        return checklistRepository.save(existingChecklist);
+        checklist.getRooms().clear();
+        checklist.getRooms().addAll(newChecklist.getRooms());
+        checklist.timeUpdate();
+
+        return checklistRepository.save(checklist);
     }
 
     Checklist getLastChecklist() {
         return checklistRepository.findAll().getLast();
+    }
+
+    public boolean deleteChecklist(long id) {
+        checklistRepository.deleteById(id);
+        if (checklistRepository.findById(id).isPresent())
+            return false;
+        return true;
     }
 }

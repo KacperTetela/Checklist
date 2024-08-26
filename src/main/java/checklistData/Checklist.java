@@ -2,71 +2,48 @@ package checklistData;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Entity
 @Table(name = "checklists")
 public class Checklist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private short roomNumber;
-    private boolean complete;
-    private String signer;
-    private String comments;
 
-    public Checklist() {
-    }
+    @OneToMany(mappedBy = "checklist", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChecklistRoom> rooms;
 
-    public Checklist(short roomNumber, boolean complete, String signer, String comments) {
-        this.roomNumber = roomNumber;
-        this.complete = complete;
-        this.signer = signer;
-        this.comments = comments;
-    }
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(nullable = false)
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     public long getId() {
         return id;
     }
 
-    public short getRoomNumber() {
-        return roomNumber;
+    public List<ChecklistRoom> getRooms() {
+        return rooms;
     }
 
-    public String getSigner() {
-        return signer;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public boolean isComplete() {
-        return complete;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public String getComments() {
-        return comments;
+    void setRooms(List<ChecklistRoom> rooms) {
+        this.rooms = rooms;
+        rooms.forEach(room -> room.setChecklist(this));
     }
 
-    public void setRoomNumber(short roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
-    public void setComplete(boolean complete) {
-        this.complete = complete;
-    }
-
-    public void setSigner(String signer) {
-        this.signer = signer;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    @Override
-    public String toString() {
-        return "Checklist{" +
-                "id=" + id +
-                ", roomNumber=" + roomNumber +
-                ", complete=" + complete +
-                ", signer='" + signer + '\'' +
-                ", comments='" + comments + '\'' +
-                '}';
+    void timeUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 }
