@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/v0/checklists")
+@RequestMapping("/api/v1/checklists")
 public class ChecklistController {
     private ChecklistService checkListService;
 
