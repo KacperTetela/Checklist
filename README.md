@@ -22,14 +22,16 @@ Manages operations related to checklists.
           "signer": "John Doe",
           "comment": "Initial check"
         }
-      ],
-      "createdAt": "2024-08-26T12:34:56",
-      "updatedAt": "2024-08-26T12:34:56"
+      ]
     }
     ```
   - **Response**: The created `Checklist` object in JSON format.
 
-- **PUT** `/api/v1/checklists/{id}`
+- **GET** `/api/v1/checklists/last`
+  - **Description**: Retrieves the most recently created checklist.
+  - **Response**: The most recent `Checklist` object in JSON format.
+ 
+  - - **PUT** `/api/v1/checklists/{id}`
   - **Description**: Updates an existing checklist with the specified `id`.
   - **Path Parameter**:
     - `id`: The ID of the checklist to update.
@@ -39,20 +41,14 @@ Manages operations related to checklists.
       "rooms": [
         {
           "roomNumber": 102,
-          "complete": true,
-          "signer": "Jane Smith",
-          "comment": "Updated check"
+          "complete": false,
+          "signer": "John Doe",
+          "comment": "Initial check"
         }
-      ],
-      "createdAt": "2024-08-26T12:34:56",
-      "updatedAt": "2024-08-26T12:34:56"
+      ]
     }
     ```
   - **Response**: The updated `Checklist` object in JSON format.
-
-- **GET** `/api/v1/checklists/last`
-  - **Description**: Retrieves the most recently created checklist.
-  - **Response**: The most recent `Checklist` object in JSON format.
 
 - **DELETE** `/api/v1/checklists/{id}`
   - **Description**: Deletes the checklist with the specified `id`.
