@@ -1,5 +1,3 @@
-# API Documentation for Checklist Project
-
 ## Overview
 
 This project includes two controllers for managing checklists and related rooms. The API allows for CRUD operations on checklists and provides endpoints to retrieve information about them.
