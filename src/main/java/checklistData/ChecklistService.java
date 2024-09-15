@@ -17,35 +17,35 @@ public class ChecklistService {
     }
 
     Checklist getChecklist(long id) {
-        return checklistRepository.findById(id).orElseThrow();
+        return checklistRepository.findById(id)
+                .orElseThrow();
     }
 
     List<Checklist> getAllChecklists() {
         return checklistRepository.findAll();
     }
 
+    List<ChecklistSummaryDTO> getIdDateFromAllChecklists() {
+        return checklistRepository.getIdDateFromAllChecklists();
+    }
+
     public Checklist updateChecklist(long id, Checklist newChecklist) {
-        Checklist checklist = checklistRepository.findById(id)
+        Checklist oldChecklistToOverride = checklistRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Checklist not found"));
 
-        newChecklist.getRooms()
-                .forEach(room -> room.setChecklist(checklist));
-
-        checklist.getRooms().clear();
-        checklist.getRooms().addAll(newChecklist.getRooms());
-        checklist.timeUpdate();
-
-        return checklistRepository.save(checklist);
+        oldChecklistToOverride.clear();
+        oldChecklistToOverride.setRooms(newChecklist.getRooms());
+        return checklistRepository.save(oldChecklistToOverride);
     }
 
     Checklist getLastChecklist() {
-        return checklistRepository.findAll().getLast();
+        return checklistRepository.getLastChecklist();
     }
 
     public boolean deleteChecklist(long id) {
-        checklistRepository.deleteById(id);
-        if (checklistRepository.findById(id).isPresent())
+        if (!checklistRepository.existsById(id))
             return false;
+        checklistRepository.deleteById(id);
         return true;
     }
 }

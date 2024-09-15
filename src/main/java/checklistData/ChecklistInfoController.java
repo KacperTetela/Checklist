@@ -25,4 +25,9 @@ public class ChecklistInfoController {
     public Checklist getChecklist(@PathVariable long id) {
         return checklistService.getChecklist(id);
     }
+
+    @GetMapping("/summary")
+    public List<ChecklistSummaryDTO> getIdDateFromAllChecklists() {
+        return checklistService.getIdDateFromAllChecklists();
+    }
 }

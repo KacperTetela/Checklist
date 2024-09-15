@@ -16,6 +16,7 @@ public class Checklist {
     @OneToMany(mappedBy = "checklist", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChecklistRoom> rooms;
 
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -45,5 +46,10 @@ public class Checklist {
 
     void timeUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public void clear() {
+        rooms.forEach(room -> room.setChecklist(null));
+        rooms.clear();
     }
 }

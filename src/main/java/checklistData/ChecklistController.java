@@ -2,6 +2,9 @@ package checklistData;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/checklists")
@@ -25,6 +28,15 @@ public class ChecklistController {
     @GetMapping("/last")
     public Checklist getLastChecklist() {
         return checkListService.getLastChecklist();
+    }
+
+    // New method
+    @GetMapping()
+    public List<Checklist> getAll(boolean last) {
+        if (last) {
+            return Collections.singletonList(checkListService.getLastChecklist());
+        }
+        return checkListService.getAllChecklists();
     }
 
     @DeleteMapping("/{id}")

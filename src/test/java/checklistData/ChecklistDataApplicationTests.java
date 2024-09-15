@@ -8,6 +8,7 @@ class ChecklistDataApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }
