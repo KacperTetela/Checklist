@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "checklists")
@@ -22,6 +23,13 @@ public class Checklist {
 
     @Column(nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
+
+    public Checklist(long id) {
+        this.id = id;
+    }
+
+    public Checklist() {
+    }
 
     public long getId() {
         return id;
@@ -51,5 +59,18 @@ public class Checklist {
     public void clear() {
         rooms.forEach(room -> room.setChecklist(null));
         rooms.clear();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Checklist checklist = (Checklist) o;
+        return id == checklist.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

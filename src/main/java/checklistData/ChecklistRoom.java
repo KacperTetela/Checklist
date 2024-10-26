@@ -16,16 +16,23 @@ public class ChecklistRoom {
     @JsonIgnore
     private Checklist checklist;
 
-    private short roomNumber;
+    private int roomNumber;
     private boolean complete;
     private String signer;
     private String comment;
+
+    public ChecklistRoom(Long id) {
+        this.id = id;
+    }
+
+    public ChecklistRoom() {
+    }
 
     public Long getId() {
         return id;
     }
 
-    public short getRoomNumber() {
+    public int getRoomNumber() {
         return roomNumber;
     }
 
@@ -47,5 +54,9 @@ public class ChecklistRoom {
 
     void setChecklist(Checklist checklist) {
         this.checklist = checklist;
+    }
+
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
     }
 }

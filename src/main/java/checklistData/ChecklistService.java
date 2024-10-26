@@ -2,6 +2,7 @@ package checklistData;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,8 +34,9 @@ public class ChecklistService {
         Checklist oldChecklistToOverride = checklistRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Checklist not found"));
 
-        oldChecklistToOverride.clear();
-        oldChecklistToOverride.setRooms(newChecklist.getRooms());
+        List<ChecklistRoom> newChecklistToOverride = new ArrayList<>(newChecklist.getRooms());
+
+        oldChecklistToOverride.setRooms(newChecklistToOverride);
         return checklistRepository.save(oldChecklistToOverride);
     }
 
