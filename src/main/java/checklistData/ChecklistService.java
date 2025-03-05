@@ -31,13 +31,22 @@ public class ChecklistService {
     }
 
     public Checklist updateChecklist(long id, Checklist newChecklist) {
-        Checklist oldChecklistToOverride = checklistRepository.findById(id)
+        Checklist oldChecklist = checklistRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Checklist not found"));
 
-        List<ChecklistRoom> newChecklistToOverride = new ArrayList<>(newChecklist.getRooms());
+        // We are modifying an existing, persistent collection
+        List<ChecklistRoom> persistentRooms = oldChecklist.getRooms();
+        persistentRooms.clear();
 
-        oldChecklistToOverride.setRooms(newChecklistToOverride);
-        return checklistRepository.save(oldChecklistToOverride);
+        if (newChecklist.getRooms() != null) {
+            for (ChecklistRoom room : newChecklist.getRooms()) {
+                // Making sure your relationship page is set correctly
+                room.setChecklist(oldChecklist);
+                persistentRooms.add(room);
+            }
+        }
+
+        return checklistRepository.save(oldChecklist);
     }
 
     Checklist getLastChecklist() {
